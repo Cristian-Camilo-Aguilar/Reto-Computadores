@@ -52,9 +52,11 @@ if (isset($_GET["accion"])){
             }
         } 
             $controlador->crearProducto(
-                $_POST["nombre"],
+                $_POST["Marca"],
+                $_POST["Modelo"],
+                $_POST["Tipo"],
                 $_POST["precio"],
-                $_POST["descripcion"],
+                $_POST["especificaciones"],
                 $_POST["id_categoria"],
                 $cover
             );

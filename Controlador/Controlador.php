@@ -42,8 +42,8 @@ class Controlador {
             require_once "Vista/html/registro.html";
         }
     }
-    public function crearProducto ($nombre, $precio, $descripcion, $id_categoria, $cover){
-        $productos = new Productos ($nombre, $precio, $descripcion, $id_categoria, $cover);
+    public function crearProducto ($marca, $modelo, $tipo, $precio, $especificaciones, $id_categoria, $cover){
+        $productos = new Productos ($marca, $modelo, $tipo, $precio, $especificaciones, $id_categoria, $cover);
         $gestorTenis= new GestorTenis();
         $result=$gestorTenis->CrearProducto($productos);
         if ($result>0){

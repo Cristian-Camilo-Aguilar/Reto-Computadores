@@ -36,9 +36,11 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
             $categorias = obtenerCategorias();
         ?>
         <form action="index.php?accion=crearProducto" class="form-admin" method="post" enctype="multipart/form-data">
-            <input type="text" name="nombre" placeholder="Nombre del producto" required>
+            <input type="text" name="marca" placeholder="Marca" required>
+            <input type="text" name="modelo" placeholder="Modelo" required>
+            <input type="text" name="tipo" placeholder="Tipo" required>
             <input type="number" name="precio" placeholder="Precio" required>
-            <input type="text" name="descripcion" placeholder="Talla" required>
+            <input type="text" name="especificaciones" placeholder="Especificaciones" required>
             <select name="id_categoria" required>
                 <option value="">Seleccionar categoría</option>
                 <?php
@@ -47,10 +49,6 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
                 }
                 ?>
             </select>
-            <input type="text" name="marca" placeholder="Marca" required>
-            <input type="text" name="modelo" placeholder="Modelo" required>
-            <input type="text" name="tipo" placeholder="Tipo" required>
-            <input type="text" name="especificaciones" placeholder="Especificaciones" required>
             <input type="file" name="cover" class="upload">
             <button type="submit">Guardar Producto</button>
         </form>
@@ -63,10 +61,12 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Nombre</th>
-                <th>Categoría</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Tipo</th>
+                <th>Categoria</th>
                 <th>Precio</th>
-                <th>Talla</th>
+                <th>Especificaciones</th>
                 <th>Acciones</th>
             </tr>
             </thead>
@@ -77,10 +77,12 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
                     ?>
                     <tr>
                         <td><?php echo $productos[$i]['id']; ?></td>
-                        <td><?php echo $productos[$i]['nombre']; ?></td>
+                        <td><?php echo $productos[$i]['marca']; ?></td>
+                        <td><?php echo $productos[$i]['modelo']; ?></td>
+                        <td><?php echo $productos[$i]['tipo']; ?></td>
                         <td><?php echo $productos[$i]['categoria']; ?></td>
                         <td><?php echo $productos[$i]['precio']; ?></td>
-                        <td><?php echo $productos[$i]['talla']; ?></td>
+                        <td><?php echo $productos[$i]['especificaciones']; ?></td>
                         <td>
                             <button>Editar</button>
                             <button type="button" onclick="eliminarProducto(<?php echo $productos[$i]['id']; ?>)">Eliminar</button>

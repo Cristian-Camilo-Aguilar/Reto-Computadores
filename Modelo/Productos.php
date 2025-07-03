@@ -2,28 +2,38 @@
 
 class Productos {
 
-    private $nombre;
-    private $descripcion;
+    private $marca;
+    private $modelo;
+    private $tipo;
     private $precio;
+    private $especificaciones;
     private $id_categoria;
     private $cover;
     
-    public function __construct($nombre,$precio, $descripcion,$id_categoria, $cover){
-        $this->nombre=$nombre;
+    public function __construct($marca, $modelo, $tipo, $precio, $especificaciones, $id_categoria, $cover){
+        $this->marca=$marca;
+        $this->modelo=$modelo;
+        $this->tipo=$tipo;
         $this->precio=$precio;
-        $this->descripcion=$descripcion;
+        $this->especificaciones=$especificaciones;
         $this->id_categoria=$id_categoria;
         $this->cover=$cover;
         
     }
-    public function obtenerNombre(){
-        return $this->nombre;
+    public function obtenerMarca(){
+        return $this->marca;
     }
-    public function obtenerDescripcion(){
-        return $this->descripcion;
+    public function obtenerModelo(){
+        return $this->modelo;
+    }
+    public function obtenerTipo(){
+        return $this->tipo;
     }
     public function obtenerPrecio(){
         return $this->precio;
+    }
+    public function obtenerEspecificaciones(){
+        return $this->especificaciones;
     }
     public function obtenerIdCategoria(){
         return $this->id_categoria;

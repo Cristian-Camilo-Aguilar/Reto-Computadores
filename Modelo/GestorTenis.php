@@ -41,13 +41,15 @@ class GestorTenis{
     public function CrearProducto (Productos $productos){
         $conexion = new Conexion();
         $conexion->abrir();
-        $nombre = $productos->obtenerNombre();
+        $marca = $productos->obtenerMarca();
+        $modelo = $productos->obtenerModelo();
+        $tipo = $productos->obtenerTipo();
         $precio = $productos->obtenerPrecio();
-        $descripcion = $productos->obtenerDescripcion();
+        $especificaciones = $productos->obtenerEspecificaciones();
         $id_categoria = $productos->obtenerIdCategoria();
         $cover = $productos->obtenerImagen();
-        $sql = "INSERT INTO productos (nombre, precio, descripcion, id_categoria, imagen) 
-                VALUES ('$nombre', '$precio', '$descripcion', '$id_categoria', '$cover')";
+        $sql = "INSERT INTO productos (marca, modelo, tipo, precio, especificaciones, id_categoria, imagen) 
+                VALUES ('$marca', '$modelo', '$tipo', '$precio', '$especificaciones', '$id_categoria', '$cover')";
         $conexion->consulta($sql);
         $result = $conexion->obtenerFilasAfectadas();
         $conexion->cerrar();
