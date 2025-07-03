@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="Vista/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Tienda de Tenis</h1>
+        <nav>
+            <a href="index.php?accion=vista">Inicio</a>
+        </nav>
+    </header>
+
+    <section>
+        <div class="login">
+            <h2>Administrador</h2>
+            <p><strong>Iniciar sesión:</strong></p>
+            <form action="index.php?accion=login" method="post">
+                <input type="email" name="correo" placeholder="Correo" required>
+                <input type="password" name="contrasena" placeholder="Contraseña" required>
+                <button type="submit">Ingresar</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Tienda de Tenis. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

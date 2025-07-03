@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra</title>
+    <link rel="stylesheet" href="Vista/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Tienda de Tenis</h1>
+        <nav>
+            <a href="index.php?accion=vista">Inicio</a>
+            <a href="index.php?accion=vista">Catálogo</a>
+        </nav>
+    </header>
+
+    <section>
+        <div class="registro">
+            <h2>Solicitud de Compra</h2>
+            <p><strong>Registro de Cliente: </strong></p>
+            <form action="index.php?accion=registrar" method="post">
+                <input type="text" name="nombre" placeholder="Nombre" required>
+                <input type="email" name="correo" placeholder="Correo" required>
+                <input type="password" name="contrasena" placeholder="Contraseña" required>
+                <input type="hidden" name="rol" value="cliente">
+                <button type="submit">Registrar</button>
+            </form>
+            <a href="index.php?accion=logincliente">Iniciar Sesion</a><br>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Tienda de Tenis. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
