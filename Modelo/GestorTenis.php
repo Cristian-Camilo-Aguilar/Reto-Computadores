@@ -38,22 +38,28 @@ class GestorTenis{
         $conexion->cerrar();
         return $result;
     }
-    public function CrearProducto (Productos $productos){
+    public function CrearProducto(Productos $productos){
         $conexion = new Conexion();
         $conexion->abrir();
+        $nombre = $productos->obtenerNombre();
         $marca = $productos->obtenerMarca();
         $modelo = $productos->obtenerModelo();
         $tipo = $productos->obtenerTipo();
         $precio = $productos->obtenerPrecio();
         $especificaciones = $productos->obtenerEspecificaciones();
-        $id_categoria = $productos->obtenerIdCategoria();
-        $cover = $productos->obtenerImagen();
-        $sql = "INSERT INTO productos (marca, modelo, tipo, precio, especificaciones, id_categoria, imagen) 
-                VALUES ('$marca', '$modelo', '$tipo', '$precio', '$especificaciones', '$id_categoria', '$cover')";
+        $sql = "INSERT INTO productos (nombre, marca, modelo, tipo, precio, especificaciones) 
+                VALUES ('$nombre','$marca', '$modelo', '$tipo', '$precio', '$especificaciones')";
         $conexion->consulta($sql);
-        $result = $conexion->obtenerFilasAfectadas();
+        $id_insertado = $conexion->obtenerInsertId();
         $conexion->cerrar();
-        return $result;
+        return $id_insertado;
+    }
+    public function guardarImagen($id_producto, $nombre_archivo) {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $sql = "INSERT INTO imagenes_productos (id_producto, nombre_archivo) VALUES ('$id_producto', '$nombre_archivo')";
+        $conexion->consulta($sql);
+        $conexion->cerrar();
     }
     public function CrearPedido (Pedidos $pedidos){
         $conexion = new Conexion();
@@ -119,7 +125,7 @@ class GestorTenis{
     public function categoriaTieneProductos($id) {
         $conexion = new Conexion();
         $conexion->abrir();
-        $sql = "SELECT COUNT(*) as total FROM productos WHERE id_categoria = '$id'";
+        $sql = "SELECT COUNT(*) as total FROM productos WHERE tipo = '$id'";
         $conexion->consulta($sql);
         $result = $conexion->obtenerResult();
         $conexion->cerrar();

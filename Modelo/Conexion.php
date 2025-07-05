@@ -5,6 +5,7 @@ class Conexion{
     private $sql;
     private $result;
     private $resultado;
+    private $insert_id;
     public function abrir(){
         $this->mySQLI = new mysqli("localhost","root","","tienda_tenis");
         if($this->mySQLI->connect_error){
@@ -30,5 +31,8 @@ class Conexion{
     
     public function obtenerFilasAfectadas(){
         return $this->filasAfectadas;
+    }
+    public function obtenerInsertId() {
+        return $this->insert_id;
     }
 }

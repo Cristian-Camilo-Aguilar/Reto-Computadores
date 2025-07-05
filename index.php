@@ -9,104 +9,148 @@ require_once 'Modelo/Pedidos.php';
 
 session_start();
 $controlador = new Controlador;
-if (isset($_GET["accion"])){
-    if ($_GET["accion"]== "vista"){
-        $controlador ->verpagina('Vista/html/catalogo.php');
-    
-    }
-    elseif($_GET["accion"] == "login"){
-        $controlador->login(
-            $_POST["correo"],
-            $_POST["contrasena"]
-        );
-    }elseif($_GET["accion"] == "ingresarcliente"){
-        $controlador->loginCliente(
-            $_POST["correo"],
-            $_POST["contrasena"]
-        );
-    }elseif ($_GET["accion"] == "registrar"){
-        $controlador ->registrarCliente(
-            $_POST["nombre"],
-            $_POST["correo"],
-            $_POST["contrasena"],
-            $_POST["rol"]
-        );
 
-    }elseif ($_GET["accion"] == "crearProducto") {
-        $ruta_indexphp = "uploads";
-        $extensiones = array('image/jpg', 'image/jpeg', 'image/png');
-        $max_tamanyo = 1024 * 1024 * 8; 
-        $cover = $_FILES['cover']['name'];
-        $ruta_fichero_origen = $_FILES['cover']['tmp_name'];
-        $ruta_nuevo_destino = $ruta_indexphp . '/' . $cover;
-        $subida_correcta = false;
-        if (in_array($_FILES['cover']['type'], $extensiones)) {
-            if ($_FILES['cover']['size'] < $max_tamanyo) {
-                if (move_uploaded_file($ruta_fichero_origen, $ruta_nuevo_destino)) {
-                    $subida_correcta = true;
-                } else {
-                    echo "<script>alert('Error al subir la imagen');</script>";
-                }
-            } else {
-                echo "<script>alert('La imagen es demasiado grande');</script>";
-            }
-        } 
-            $controlador->crearProducto(
-                $_POST["Marca"],
-                $_POST["Modelo"],
-                $_POST["Tipo"],
-                $_POST["precio"],
-                $_POST["especificaciones"],
-                $_POST["id_categoria"],
-                $cover
+if (isset($_GET["accion"])) {
+    switch ($_GET["accion"]) {
+        case "vista":
+            $controlador->verpagina('Vista/html/catalogo.php');
+            break;
+
+        case "login":
+            $controlador->login(
+                $_POST["correo"],
+                $_POST["contrasena"]
             );
+            break;
 
-    }elseif ($_GET["accion"] == "crearCategoria"){
-        $controlador->crearCategoria(
+        case "ingresarcliente":
+            $controlador->loginCliente(
+                $_POST["correo"],
+                $_POST["contrasena"]
+            );
+            break;
+
+        case "registrar":
+            $controlador->registrarCliente(
+                $_POST["nombre"],
+                $_POST["correo"],
+                $_POST["contrasena"],
+                $_POST["rol"]
+            );
+            break;
+
+        case "crearProducto":
+            // Datos de la imagen y el producto
+            $ruta_indexphp = "uploads";
+            $extensiones = array('image/jpg', 'image/jpeg', 'image/png');
+            $max_tamanyo = 1024 * 1024 * 16; // 16MB
+            // Array para almacenar los nombres de las imágenes subidas
+            $nombres_archivos = array(); 
+            // Subir todas las imágenes
+            foreach ($_FILES['cover']['name'] as $key => $nombre_archivo) {
+                $tipo = $_FILES['cover']['type'][$key];
+                $tamano = $_FILES['cover']['size'][$key];
+                $tmp_name = $_FILES['cover']['tmp_name'][$key];
+
+                // Verificamos que la extensión sea válida y el tamaño sea correcto
+                if (in_array($tipo, $extensiones) && $tamano < $max_tamanyo) {
+                    // Crear una ruta única para la imagen (puedes agregar un prefijo único para evitar sobreescribir)
+                    $nombre_archivo = time() . '_' . basename($nombre_archivo);
+                    $ruta_nuevo_destino = $ruta_indexphp . '/' . $nombre_archivo;
+                } else {
+                    echo 'El archivo no es una imagen válida.';
+                    exit;
+                }
+                    // Mover el archivo a la carpeta de destino
+                    if (move_uploaded_file($tmp_name, $ruta_nuevo_destino)) {
+                        $nombres_archivos[] = $nombre_archivo; // Guardamos el nombre de la imagen para agregarla al producto
+                    }
+                }
+            // Resto de los datos del formulario
+            $nombre = $_POST["nombre"];
+            $especificaciones = $_POST["especificaciones"];
+            $precio = $_POST["precio"];
+            $marca = $_POST["marca"];
+            $modelo = $_POST["modelo"];
+            $tipo = $_POST["tipo"];
+            $id_producto = $controlador->crearProducto($nombre, $marca, $modelo, $tipo, $precio, $especificaciones);
+            // Ahora guardamos las imágenes asociadas a ese producto
+            foreach ($nombres_archivos as $file) {
+                // Guardamos la imagen en la tabla de imágenes
+                $controlador->guardarImagen($id_producto, $file);
+            }
+            break;
+
+        case "crearCategoria":
+            $controlador->crearCategoria(
                 $_POST["nombre"]
             );
+            break;
 
-    }elseif ($_GET["accion"] == "crearPedido"){
-        $controlador->crearPedido(
+        case "crearPedido":
+            $controlador->crearPedido(
                 $_POST["id_usuario"],
                 $_POST["id_producto"],
-                $_POST ["cantidad"],
-                $_POST ["fecha"],
-                $_POST ["estado"]
+                $_POST["cantidad"],
+                $_POST["fecha"],
+                $_POST["estado"]
             );
+            break;
 
-    }elseif ($_GET["accion"] == "eliminarCategoria"){
-        $id = $_GET["id"];
-        $controlador ->eliminarCategoria($id);
-    }elseif ($_GET["accion"] == "eliminarProducto"){
-        $id = $_GET["id"];
-        $controlador ->eliminarProducto($id);
-    }elseif ($_GET["accion"] == "cambiarEstadoPedido") {
-        $id = $_GET["id"];
-        $controlador->cambiarEstadoPedido($id);
-    }elseif ($_GET["accion"] == "loginadmin"){
-        $controlador ->verpagina('Vista/html/login.html');
-    }elseif ($_GET["accion"] == "logincliente"){
-        $controlador ->verpagina('Vista/html/logincliente.html');
-    }elseif ($_GET["accion"] == "pedido"){
-        $controlador ->verpagina('Vista/html/pedido.php');
-    }elseif ($_GET["accion"] == "registro"){
-        $controlador ->verpagina('Vista/html/registro.html');
-    }elseif ($_GET["accion"] == "categorias"){
-        $controlador ->verpagina('Vista/html/categorias.php');
-    }elseif ($_GET["accion"] == "pedidosclientes"){
-        $controlador ->verpagina('Vista/html/pedidosclientes.php');
-    }elseif ($_GET["accion"] == "admin"){
-        $controlador ->verpagina('Vista/html/admin.php');
-    }elseif ($_GET["accion"] == "logout") {
-        session_unset();
-        session_destroy();
-        header("Location: index.php?accion=vista");
-        exit();
+        case "eliminarCategoria":
+            $id = $_GET["id"];
+            $controlador->eliminarCategoria($id);
+            break;
+
+        case "eliminarProducto":
+            $id = $_GET["id"];
+            $controlador->eliminarProducto($id);
+            break;
+
+        case "cambiarEstadoPedido":
+            $id = $_GET["id"];
+            $controlador->cambiarEstadoPedido($id);
+            break;
+
+        case "loginadmin":
+            $controlador->verpagina('Vista/html/login.html');
+            break;
+
+        case "logincliente":
+            $controlador->verpagina('Vista/html/logincliente.html');
+            break;
+
+        case "pedido":
+            $controlador->verpagina('Vista/html/pedido.php');
+            break;
+
+        case "registro":
+            $controlador->verpagina('Vista/html/registro.html');
+            break;
+
+        case "categorias":
+            $controlador->verpagina('Vista/html/categorias.php');
+            break;
+
+        case "pedidosclientes":
+            $controlador->verpagina('Vista/html/pedidosclientes.php');
+            break;
+
+        case "admin":
+            $controlador->verpagina('Vista/html/admin.php');
+            break;
+
+        case "logout":
+            session_unset();
+            session_destroy();
+            header("Location: index.php?accion=vista");
+            break;
+
+        default:
+            $controlador->verpagina('Vista/html/catalogo.php');
+            break;
     }
-}
-else {
-    $controlador -> verpagina('Vista/html/catalogo.php');
-}
+} else {
+    $controlador->verpagina('Vista/html/catalogo.php');}
 
 ?>

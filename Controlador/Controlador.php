@@ -42,17 +42,21 @@ class Controlador {
             require_once "Vista/html/registro.html";
         }
     }
-    public function crearProducto ($marca, $modelo, $tipo, $precio, $especificaciones, $id_categoria, $cover){
-        $productos = new Productos ($marca, $modelo, $tipo, $precio, $especificaciones, $id_categoria, $cover);
-        $gestorTenis= new GestorTenis();
-        $result=$gestorTenis->CrearProducto($productos);
-        if ($result>0){
+    public function crearProducto($nombre, $marca, $modelo, $tipo, $precio, $especificaciones){
+        $productos = new Productos($nombre, $marca, $modelo, $tipo, $precio, $especificaciones);
+        $gestorTenis = new GestorTenis();
+        $id_producto = $gestorTenis->CrearProducto($productos);
+        if ($id_producto > 0){
             echo"<script>alert('Producto agregado con Exito')</script>";
-        }
-        else{
+        } else {
             echo"<script>alert('Producto no se Guardó')</script>";
         }
         require_once "Vista/html/admin.php";
+        return $id_producto; 
+    }
+    public function guardarImagen($id_producto, $nombre_archivo) {
+        $gestorTenis = new GestorTenis();
+        $gestorTenis->guardarImagen($id_producto, $nombre_archivo);
     }
     public function crearPedido ($id_usuario, $id_producto, $cantidad, $fecha, $estado){
         $pedidos = new Pedidos ($id_usuario, $id_producto, $cantidad, $fecha, $estado);

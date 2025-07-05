@@ -36,20 +36,20 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
             $categorias = obtenerCategorias();
         ?>
         <form action="index.php?accion=crearProducto" class="form-admin" method="post" enctype="multipart/form-data">
+            <input type="text" name="nombre" placeholder="Nombre" required>
             <input type="text" name="marca" placeholder="Marca" required>
             <input type="text" name="modelo" placeholder="Modelo" required>
-            <input type="text" name="tipo" placeholder="Tipo" required>
             <input type="number" name="precio" placeholder="Precio" required>
             <input type="text" name="especificaciones" placeholder="Especificaciones" required>
-            <select name="id_categoria" required>
+            <select name="tipo" required>
                 <option value="">Seleccionar categoría</option>
                 <?php
                 foreach ($categorias as $cat) {
                     echo '<option value="' . $cat['id'] . '">' . htmlspecialchars($cat['nombre']) . '</option>';
                 }
                 ?>
+            <input type="file" name="cover" multiple>
             </select>
-            <input type="file" name="cover" class="upload">
             <button type="submit">Guardar Producto</button>
         </form>
         <h5>Productos Registrados</h5>
