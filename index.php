@@ -40,32 +40,36 @@ if (isset($_GET["accion"])) {
             break;
 
         case "crearProducto":
-            // Datos de la imagen y el producto
             $ruta_indexphp = "uploads";
             $extensiones = array('image/jpg', 'image/jpeg', 'image/png');
             $max_tamanyo = 1024 * 1024 * 16; // 16MB
-            // Array para almacenar los nombres de las imágenes subidas
-            $nombres_archivos = array(); 
-            // Subir todas las imágenes
-            foreach ($_FILES['cover']['name'] as $key => $nombre_archivo) {
-                $tipo = $_FILES['cover']['type'][$key];
-                $tamano = $_FILES['cover']['size'][$key];
-                $tmp_name = $_FILES['cover']['tmp_name'][$key];
+            $nombres_archivos = array();
 
-                // Verificamos que la extensión sea válida y el tamaño sea correcto
+            // Normaliza para que siempre sea un array
+            $files = $_FILES['cover'];
+            if (!is_array($files['name'])) {
+                // Si solo hay un archivo, lo convertimos a array
+                foreach ($files as $k => $v) {
+                    $files[$k] = array($v);
+                }
+            }
+
+            foreach ($files['name'] as $key => $nombre_archivo) {
+                $tipo = $files['type'][$key];
+                $tamano = $files['size'][$key];
+                $tmp_name = $files['tmp_name'][$key];
+
                 if (in_array($tipo, $extensiones) && $tamano < $max_tamanyo) {
-                    // Crear una ruta única para la imagen (puedes agregar un prefijo único para evitar sobreescribir)
                     $nombre_archivo = time() . '_' . basename($nombre_archivo);
                     $ruta_nuevo_destino = $ruta_indexphp . '/' . $nombre_archivo;
                 } else {
                     echo 'El archivo no es una imagen válida.';
                     exit;
                 }
-                    // Mover el archivo a la carpeta de destino
-                    if (move_uploaded_file($tmp_name, $ruta_nuevo_destino)) {
-                        $nombres_archivos[] = $nombre_archivo; // Guardamos el nombre de la imagen para agregarla al producto
-                    }
+                if (move_uploaded_file($tmp_name, $ruta_nuevo_destino)) {
+                    $nombres_archivos[] = $nombre_archivo;
                 }
+            }
             // Resto de los datos del formulario
             $nombre = $_POST["nombre"];
             $especificaciones = $_POST["especificaciones"];
@@ -83,7 +87,7 @@ if (isset($_GET["accion"])) {
 
         case "crearCategoria":
             $controlador->crearCategoria(
-                $_POST["nombre"]
+                $_POST["nombre_categoria"]
             );
             break;
 

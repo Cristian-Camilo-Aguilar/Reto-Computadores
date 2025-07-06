@@ -70,8 +70,8 @@ class Controlador {
         }
         require_once "Vista/html/pedido.php";
     }
-    public function crearCategoria($nombre){
-        $categorias = new Categorias ($nombre);
+    public function crearCategoria($nombre_categoria){
+        $categorias = new Categorias ($nombre_categoria);
         $gestorTenis= new GestorTenis();
         $result=$gestorTenis->CrearCategoria($categorias);
         if ($result>0){

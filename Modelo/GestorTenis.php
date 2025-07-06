@@ -79,8 +79,8 @@ class GestorTenis{
     public function CrearCategoria(Categorias $categorias){
         $conexion= new Conexion();
         $conexion->abrir();
-        $nombre=$categorias->obtenerNombre();
-        $sql="INSERT INTO categorias VALUES (null, '$nombre')";
+        $nombre_categoria=$categorias->obtenerNombre();
+        $sql="INSERT INTO categorias VALUES (null, '$nombre_categoria')";
         $conexion->consulta($sql);
         $result=$conexion->obtenerFilasAfectadas();
         $conexion->cerrar();

@@ -36,7 +36,7 @@ $productos = obtenerProductos();
                     <option value="">Selecciona un producto</option>
                     <?php foreach ($productos as $prod): ?>
                         <option value="<?php echo $prod['id']; ?>">
-                            <?php echo htmlspecialchars($prod['nombre']) . " - Talla: " . htmlspecialchars($prod['talla']) . " - $" . htmlspecialchars($prod['precio']); ?>
+                            <?php echo htmlspecialchars($prod['nombre']) . " - Marca: " . htmlspecialchars($prod['marca']) . " - Modelo: " . htmlspecialchars($prod['modelo']) . " - $" . htmlspecialchars($prod['precio']); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>

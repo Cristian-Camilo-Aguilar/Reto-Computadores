@@ -24,6 +24,10 @@ class Conexion{
         $this->sql=$sql;
         $this->result= $this->mySQLI->query($this->sql);
         $this->filasAfectadas= $this->mySQLI->affected_rows;
+        $this->insert_id = $this->mySQLI->insert_id;
+    }
+    public function getMySQLI() {
+        return $this->mySQLI;
     }
     public function obtenerResult(){
         return $this->result;

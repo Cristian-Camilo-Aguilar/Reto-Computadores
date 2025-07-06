@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tienda de Tenis</title>
   <link rel="stylesheet" href="Vista/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
   <header>
@@ -24,20 +25,51 @@
     <div class="productos">
         <?php
           if ($productos) {
-              for ($i = 0; $i < count($productos); $i++) {
-                  ?>
-                  <div class="producto">
-                      <img src="uploads/<?php echo htmlspecialchars($productos[$i]['imagen']); ?>">
-                      <h3><?php echo $productos[$i]['nombre']; ?></h3>
-                      <p>Categoría: <?php echo $productos[$i]['categoria']; ?></p>
-                      <p>Talla: <?php echo $productos[$i]['talla']; ?></p>
-                      <p><?php echo $productos[$i]['precio']; ?></p>
-                      <a href="index.php?accion=registro">Solicitar Compra</a>
-                  </div>
-                  <?php
-              }
-          }
-
+            for ($i = 0; $i < count($productos); $i++) {
+                $imagenes = $productos[$i]['imagenes'];
+                $carouselId = "carouselProducto" . $i;
+                ?>
+                <div class="producto card mb-4" style="width: 18rem; display:inline-block; vertical-align:top; margin:10px;">
+                    <div id="<?php echo $carouselId; ?>" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <?php
+                            if (!empty($imagenes)) {
+                                foreach ($imagenes as $idx => $img) {
+                                    ?>
+                                    <div class="carousel-item <?php if ($idx === 0) echo 'active'; ?>">
+                                        <img src="uploads/<?php echo htmlspecialchars($img); ?>" class="d-block w-100" style="max-height:180px;object-fit:contain;">
+                                    </div>
+                                    <?php
+                                }
+                            } else {
+                                ?>
+                                <div class="carousel-item active">
+                                    <img src="uploads/default.png" class="d-block w-100" style="max-height:180px;object-fit:contain;">
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        <?php if (!empty($imagenes) && count($imagenes) > 1) { ?>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#<?php echo $carouselId; ?>" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#<?php echo $carouselId; ?>" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                        <?php } ?>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo $productos[$i]['nombre']; ?></h5>
+                        <p class="card-text">Marca: <?php echo $productos[$i]['marca']; ?></p>
+                        <p class="card-text">Modelo: <?php echo $productos[$i]['modelo']; ?></p>
+                        <p class="card-text">Especificaciones: <?php echo $productos[$i]['especificaciones']; ?></p>
+                        <a href="index.php?accion=registro" class="btn btn-secondary">Solicitar Compra</a>
+                    </div>
+                </div>
+                <?php
+            }
+        }
           // $contrasena = '123';
           // $hash = password_hash($contrasena, PASSWORD_DEFAULT);
           // echo $hash;
@@ -51,5 +83,6 @@
   <footer>
     <p>&copy; 2025 Tienda de Tenis. Todos los derechos reservados.</p>
   </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

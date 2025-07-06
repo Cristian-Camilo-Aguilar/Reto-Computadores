@@ -48,7 +48,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
                     echo '<option value="' . $cat['id'] . '">' . htmlspecialchars($cat['nombre']) . '</option>';
                 }
                 ?>
-            <input type="file" name="cover" multiple>
+            <input type="file" name="cover[]" multiple>
             </select>
             <button type="submit">Guardar Producto</button>
         </form>
@@ -64,7 +64,6 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
                 <th>Marca</th>
                 <th>Modelo</th>
                 <th>Tipo</th>
-                <th>Categoria</th>
                 <th>Precio</th>
                 <th>Especificaciones</th>
                 <th>Acciones</th>
@@ -79,8 +78,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
                         <td><?php echo $productos[$i]['id']; ?></td>
                         <td><?php echo $productos[$i]['marca']; ?></td>
                         <td><?php echo $productos[$i]['modelo']; ?></td>
-                        <td><?php echo $productos[$i]['tipo']; ?></td>
-                        <td><?php echo $productos[$i]['categoria']; ?></td>
+                        <td><?php echo $productos[$i]['nombre_categoria']; ?></td>
                         <td><?php echo $productos[$i]['precio']; ?></td>
                         <td><?php echo $productos[$i]['especificaciones']; ?></td>
                         <td>

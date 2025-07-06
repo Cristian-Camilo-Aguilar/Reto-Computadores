@@ -3,7 +3,7 @@ function obtenerCategorias() {
     require_once 'Modelo/Conexion.php';
     $conexion = new Conexion();
     $conexion->abrir();
-    $sql = "SELECT id, nombre FROM categorias";
+    $sql = "SELECT id, nombre_categoria FROM categorias";
     $conexion->consulta($sql);
     $result = $conexion->obtenerResult();
     $categorias = [];
