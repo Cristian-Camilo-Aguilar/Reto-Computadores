@@ -82,8 +82,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
                         <td><?php echo $productos[$i]['precio']; ?></td>
                         <td><?php echo $productos[$i]['especificaciones']; ?></td>
                         <td>
-                            <button>Editar</button>
-                            <button type="button" onclick="eliminarProducto(<?php echo $productos[$i]['id']; ?>)">Eliminar</button>
+                            <a href="index.php?accion=modificar">Modificar</a>
                         </td>
                     </tr>
                     <?php

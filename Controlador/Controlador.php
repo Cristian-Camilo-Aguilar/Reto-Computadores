@@ -123,7 +123,16 @@ class Controlador {
         }
         require_once "Vista/html/pedidosclientes.php";
     }
-
+    public function eliminarImagen($id_producto, $nombre_archivo) {
+        $gestorTenis = new GestorTenis();
+        $gestorTenis->eliminarImagen($id_producto, $nombre_archivo);
+        $ruta = "uploads/" . $nombre_archivo;
+        if (file_exists($ruta)) {
+            unlink($ruta);
+        }
+        header("Location: index.php?accion=modificar&editar=" . $id_producto);
+        exit();
+    }
 
 }
 

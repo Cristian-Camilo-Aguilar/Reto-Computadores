@@ -101,6 +101,11 @@ if (isset($_GET["accion"])) {
             );
             break;
 
+        case "eliminar_imagen":
+            $controlador->eliminarImagen($_GET['id_producto'], $_GET['nombre_archivo']);
+            header("Location: index.php?accion=modificar&editar=" . $_GET['id_producto']);
+            exit();
+
         case "eliminarCategoria":
             $id = $_GET["id"];
             $controlador->eliminarCategoria($id);
@@ -142,6 +147,10 @@ if (isset($_GET["accion"])) {
 
         case "admin":
             $controlador->verpagina('Vista/html/admin.php');
+            break;
+
+        case "modificar":
+            $controlador->verpagina('Vista/html/modificar.php');
             break;
 
         case "logout":

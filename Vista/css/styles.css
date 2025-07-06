@@ -108,3 +108,134 @@ footer {
     padding: 1rem;
     margin-top: 2rem;
 }
+
+/* CSS Modificar */
+
+#panel-admin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.producto-card {
+    max-width: 1000px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+}
+
+.producto-row {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+}
+
+.producto-formulario {
+    flex: 1;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+}
+
+.producto-formulario form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.producto-formulario label {
+    font-weight: bold;
+}
+
+.producto-formulario input,
+.producto-formulario select,
+.producto-formulario textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.botones-form button,
+.botones-form a {
+    padding: 8px 14px;
+    background-color: #3e8ed0;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+}
+
+.botones-form a {
+    background-color: #888;
+}
+
+.galeria-imagenes {
+    flex: 1;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    text-align: center;
+}
+
+.galeria-imagenes .img-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.img-box {
+    position: relative;
+}
+
+.img-box img {
+    width: 120px;
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.delete-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: red;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 50%;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.img-form {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.img-form input[type="file"] {
+    margin-bottom: 10px;
+}
+
+.img-form button {
+    padding: 8px 14px;
+    background-color: #3e8ed0;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}

@@ -131,6 +131,15 @@ class GestorTenis{
         $conexion->cerrar();
         return $result;
     }
+    public function eliminarImagen($id_producto, $nombre_archivo) {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $id_producto = intval($id_producto);
+        $nombre_archivo = $conexion->getMySQLI()->real_escape_string($nombre_archivo);
+        $sql = "DELETE FROM imagenes_productos WHERE id_producto='$id_producto' AND nombre_archivo='$nombre_archivo'";
+        $conexion->consulta($sql);
+        $conexion->cerrar();
+    }
 }
 
 ?>
