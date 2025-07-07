@@ -138,6 +138,23 @@ if (isset($_GET["accion"])) {
             );
             break;
 
+        case "agregarAlCarrito":
+            $id = $_GET["id"];
+            $controlador->agregarAlCarrito($id);
+            break;
+
+        case "vaciarCarrito":
+            $controlador->vaciarCarrito();
+            break;
+
+        case "confirmarPedido":
+            $controlador->confirmarPedido();
+            break;
+
+        case "carrito":
+            $controlador->verpagina('Vista/html/carrito.php');
+            break;
+
         case "loginadmin":
             $controlador->verpagina('Vista/html/login.html');
             break;
@@ -148,6 +165,10 @@ if (isset($_GET["accion"])) {
 
         case "pedido":
             $controlador->verpagina('Vista/html/pedido.php');
+            break;
+
+        case "pedidosrealizados":
+            $controlador->verpagina('Vista/html/pedidosrealizados.php');
             break;
 
         case "registro":

@@ -239,3 +239,72 @@ footer {
     border-radius: 6px;
     cursor: pointer;
 }
+
+/* Carritos y Pedidos */
+.productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem;
+}
+.producto {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    padding: 1rem;
+    text-align: center;
+}
+.producto h4 {
+    margin: 0.5rem 0;
+}
+.producto button {
+    padding: 0.5rem 1rem;
+    margin-top: 0.5rem;
+    background-color: #3e8ed0;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+.pedido-table {
+    width: 100%;
+    margin: 2rem 0;
+    border-collapse: collapse;
+}
+
+.pedido-table th, .pedido-table td {
+    border: 1px solid #ccc;
+    padding: 0.75rem;
+    text-align: left;
+}
+.pedido-table th {
+    background-color: #f4f4f4;
+}
+.sin-pedidos {
+    margin: 2rem;
+    font-style: italic;
+}
+
+.productos, .carrito {
+    margin: 2rem;
+}
+.producto-card, .carrito-card {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.carrito-card h3 {
+    margin-bottom: 0.5rem;
+}
+.carrito-card button {
+    padding: 0.5rem 1rem;
+    margin-top: 0.5rem;
+    background-color: #3e8ed0;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}

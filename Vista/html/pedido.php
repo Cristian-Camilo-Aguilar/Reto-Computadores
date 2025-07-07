@@ -5,47 +5,83 @@ if (!isset($_SESSION['id_usuario'])) {
 }
 
 require_once 'Modelo/verProductos.php';
-$id_usuario = isset($_SESSION['id_usuario']) ? $_SESSION['id_usuario'] : '';
+require_once 'Modelo/Conexion.php';
+
+$id_usuario = $_SESSION['id_usuario'];
 $productos = obtenerProductos();
+
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedido</title>
+    <title>Carrito de Compras</title>
     <link rel="stylesheet" href="Vista/css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <header>
         <h1>Tienda de Tenis</h1>
         <nav>
-            <a href="index.php?accion=vista">Inicio</a>
-            <a href="index.php?accion=vista">Catálogo</a>
+            <a href="index.php?accion=pedido">Catálogo</a>
+            <a href="index.php?accion=pedidosrealizados">Mis Pedidos</a>
+            <a href="index.php?accion=carrito">Carrito</a>
+            <a href="index.php?accion=vaciarCarrito">Vaciar Carrito</a>
+            <a href="index.php?accion=logout">Cerrar Sesión</a>
         </nav>
     </header>
 
     <section>
-        <div class="pedido">
-            <h2>Solicitud de Compra</h2>
-            <p><strong>Registro de Pedido: </strong></p>
-            <form action="index.php?accion=crearPedido" method="post">
-                <input type="hidden" name="id_usuario" value="<?php echo htmlspecialchars($id_usuario); ?>">
-                <label for="id_producto">Producto:</label>
-                <select name="id_producto" id="id_producto" required>
-                    <option value="">Selecciona un producto</option>
-                    <?php foreach ($productos as $prod): ?>
-                        <option value="<?php echo $prod['id']; ?>">
-                            <?php echo htmlspecialchars($prod['nombre']) . " - Marca: " . htmlspecialchars($prod['marca']) . " - Modelo: " . htmlspecialchars($prod['modelo']) . " - $" . htmlspecialchars($prod['precio']); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <input type="number" name="cantidad" placeholder="Cantidad" min="1" required>
-                <input type="date" name="fecha" required>
-                <input type="hidden" name="estado" value="Solicitado">
-                <button type="submit">Realizar Pedido</button>
-            </form>
-            <a href="index.php?accion=logout">Cerrar Sesion</a>
+        <h2 style="text-align:center;">Catálogo de Productos</h2>
+        <div class="productos">
+            <?php
+            if ($productos) {
+                for ($i = 0; $i < count($productos); $i++) {
+                    $imagenes = $productos[$i]['imagenes'];
+                    $carouselId = "carouselProducto" . $i;
+                    ?>
+                    <div class="producto card mb-4" style="width: 18rem; display:inline-block; vertical-align:top; margin:10px;">
+                        <div id="<?php echo $carouselId; ?>" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <?php
+                                if (!empty($imagenes)) {
+                                    foreach ($imagenes as $idx => $img) {
+                                        ?>
+                                        <div class="carousel-item <?php if ($idx === 0) echo 'active'; ?>">
+                                            <img src="uploads/<?php echo htmlspecialchars($img); ?>" class="d-block w-100" style="max-height:180px;object-fit:contain;">
+                                        </div>
+                                        <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <div class="carousel-item active">
+                                        <img src="uploads/default.png" class="d-block w-100" style="max-height:180px;object-fit:contain;">
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                            <?php if (!empty($imagenes) && count($imagenes) > 1) { ?>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#<?php echo $carouselId; ?>" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#<?php echo $carouselId; ?>" data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
+                            <?php } ?>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $productos[$i]['nombre']; ?></h5>
+                            <p class="card-text">Marca: <?php echo $productos[$i]['marca']; ?></p>
+                            <p class="card-text">Modelo: <?php echo $productos[$i]['modelo']; ?></p>
+                            <p class="card-text">Especificaciones: <?php echo $productos[$i]['especificaciones']; ?></p>
+                            <a href="index.php?accion=carrito" class="btn btn-secondary" >Agregar al Carrito</a>
+                        </div>
+                    </div>
+                    <?php
+                }
+            }
+            ?>
         </div>
     </section>
 

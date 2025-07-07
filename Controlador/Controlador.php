@@ -163,6 +163,63 @@ class Controlador {
     }
 
 
+    public function agregarAlCarrito($id_producto) {
+        if (!isset($_SESSION['carrito'])) {
+            $_SESSION['carrito'] = [];
+        }
+
+        // Verifica si ya está en el carrito
+        if (!in_array($id_producto, $_SESSION['carrito'])) {
+            $_SESSION['carrito'][] = $id_producto;
+        }
+
+        header("Location: index.php?accion=carrito");
+        exit();
+    }
+
+    public function verCarrito() {
+        $carrito = isset($_SESSION['carrito']) ? $_SESSION['carrito'] : [];
+        $productos = obtenerProductos();
+
+        $seleccionados = array_filter($productos, function($prod) use ($carrito) {
+            return in_array($prod['id'], $carrito);
+        });
+
+        require_once "Vista/html/carrito.php"; // Aquí puedes ajustar la vista para mostrar solo $seleccionados
+    }
+
+    public function vaciarCarrito() {
+        unset($_SESSION['carrito']);
+        header("Location: index.php?accion=carrito");
+        exit();
+    }
+
+    public function confirmarPedido() {
+        if (!isset($_SESSION['id_usuario']) || !isset($_SESSION['carrito'])) {
+            echo "<script>alert('No hay productos en el carrito');</script>";
+            require_once "Vista/html/carrito.php";
+            return;
+        }
+        $id_usuario = $_SESSION['id_usuario'];
+        $carrito = $_SESSION['carrito'];
+        $fecha = date("Y-m-d");
+        $estado = "Solicitado";
+        require_once 'Modelo/GestorTenis.php';
+        $gestor = new GestorTenis();
+
+        foreach ($carrito as $id_producto) {
+            $cantidad = 1; // Puedes cambiar esto si implementas cantidades personalizadas por producto
+            $resultado = $gestor->CrearPedidoDesdeCarrito($id_usuario, $id_producto, $cantidad, $fecha, $estado);
+
+            if ($resultado <= 0) {
+                echo "<script>alert('Ocurrió un problema al registrar el pedido del producto ID $id_producto');</script>";
+            }
+        }
+        unset($_SESSION['carrito']); // Limpia el carrito después de la compra
+        echo "<script>alert('Compra realizada con éxito');</script>";
+        require_once "Vista/html/carrito.php";
+    }
+
 
 }
 
