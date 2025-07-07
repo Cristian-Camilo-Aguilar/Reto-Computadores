@@ -5,70 +5,11 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
 }
 
 require_once 'Modelo/verProductos.php';
+require_once 'Modelo/verCategorias.php';
 require_once 'Modelo/Conexion.php';
 
-// Obtener productos y categorías
 $productos = obtenerProductos();
-
-$conexion = new Conexion();
-$conexion->abrir();
-$mysqli = $conexion->getMySQLI();
-$categorias = [];
-$result = $mysqli->query("SELECT id, nombre_categoria FROM categorias");
-while ($row = $result->fetch_assoc()) {
-    $categorias[] = $row;
-}
-$conexion->cerrar();
-
-// Modificar producto
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modificar_producto'])) {
-    $id = $_POST['id'];
-    $marca = $_POST['marca'];
-    $modelo = $_POST['modelo'];
-    $tipo = $_POST['tipo'];
-    $precio = $_POST['precio'];
-    $especificaciones = $_POST['especificaciones'];
-
-    $conexion = new Conexion();
-    $conexion->abrir();
-    $mysqli = $conexion->getMySQLI();
-    $stmt = $mysqli->prepare("UPDATE productos SET marca=?, modelo=?, tipo=?, precio=?, especificaciones=? WHERE id=?");
-    $stmt->bind_param("ssidsi", $marca, $modelo, $tipo, $precio, $especificaciones, $id);
-    $stmt->execute();
-    $stmt->close();
-    $conexion->cerrar();
-
-    echo "<script>
-        alert('Producto modificado correctamente');
-        window.location.href = 'index.php?accion=modificar';
-    </script>";
-    exit();
-}
-
-// Agregar imagen
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar_imagen']) && isset($_POST['id'])) {
-    $id_producto = intval($_POST['id']);
-    if (isset($_FILES['nueva_imagen']) && $_FILES['nueva_imagen']['error'] === UPLOAD_ERR_OK) {
-        $nombre_archivo = time() . '_' . basename($_FILES['nueva_imagen']['name']);
-        $ruta_destino = "uploads/" . $nombre_archivo;
-        $tipo = $_FILES['nueva_imagen']['type'];
-        $permitidos = ['image/jpg', 'image/jpeg', 'image/png'];
-        if (in_array($tipo, $permitidos)) {
-            if (move_uploaded_file($_FILES['nueva_imagen']['tmp_name'], $ruta_destino)) {
-                $conexion = new Conexion();
-                $conexion->abrir();
-                $mysqli = $conexion->getMySQLI();
-                $stmt = $mysqli->prepare("INSERT INTO imagenes_productos (id_producto, nombre_archivo) VALUES (?, ?)");
-                $stmt->bind_param("is", $id_producto, $nombre_archivo);
-                $stmt->execute();
-                $stmt->close();
-                $conexion->cerrar();
-            }
-        }
-    }
-    header("Location: index.php?accion=modificar");
-    exit();
-}
+$categorias = obtenerCategorias();
 
 ?>
 <!DOCTYPE html>
@@ -100,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar_imagen']) && 
             <div class="producto-row">
                 
                 <div class="producto-formulario">
-                <form method="post" action="" enctype="multipart/form-data">
+                <form method="post" action="index.php?accion=modificarProducto" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?php echo $producto['id']; ?>">
 
                     <label>Marca</label>
@@ -139,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar_imagen']) && 
                         foreach ($producto['imagenes'] as $img) {
                             echo '<div class="img-box">';
                             echo '<img src="uploads/' . htmlspecialchars($img) . '" alt="img">';
-                            echo '<a class="delete-btn" href="index.php?accion=eliminar_imagen&id_producto=' . $producto['id'] . '&nombre_archivo=' . urlencode($img) . '" onclick="return confirm(\'¿Eliminar esta imagen?\')">✖</a>';
+                            echo '<a class="delete-btn" href="index.php?accion=eliminar_imagen&id_producto=' . $producto['id'] . '&nombre_archivo=' . urlencode($img) . '" onclick="return confirm(\'¿Deseas Eliminar esta imagen?\')">✖</a>';
                             echo '</div>';
                         }
                     } else {
@@ -147,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar_imagen']) && 
                     }
                     ?>
                 </div>
-                <form method="post" action="" enctype="multipart/form-data" class="img-form">
+                <form method="post" action="index.php?accion=agregarImagenModificada" enctype="multipart/form-data" class="img-form">
                     <input type="hidden" name="id" value="<?php echo $producto['id']; ?>">
                     <input type="file" name="nueva_imagen" accept="image/*" required>
                     <button type="submit" name="agregar_imagen">Agregar Imagen</button>

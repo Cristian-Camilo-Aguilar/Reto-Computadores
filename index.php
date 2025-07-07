@@ -104,7 +104,7 @@ if (isset($_GET["accion"])) {
         case "eliminar_imagen":
             $controlador->eliminarImagen($_GET['id_producto'], $_GET['nombre_archivo']);
             header("Location: index.php?accion=modificar&editar=" . $_GET['id_producto']);
-            exit();
+            break;
 
         case "eliminarCategoria":
             $id = $_GET["id"];
@@ -119,6 +119,23 @@ if (isset($_GET["accion"])) {
         case "cambiarEstadoPedido":
             $id = $_GET["id"];
             $controlador->cambiarEstadoPedido($id);
+            break;
+        
+        case "agregarImagenModificada":
+            $id = $_POST["id"];
+            $archivo = $_FILES["nueva_imagen"];
+            $controlador->agregarImagen($id, $archivo);
+            break;
+
+        case "modificarProducto":
+            $controlador->modificarProducto(
+                $_POST["id"],
+            $_POST["marca"],
+                $_POST["modelo"],
+                $_POST["tipo"],
+                $_POST["precio"],
+                $_POST["especificaciones"]
+            );
             break;
 
         case "loginadmin":

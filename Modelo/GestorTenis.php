@@ -140,6 +140,31 @@ class GestorTenis{
         $conexion->consulta($sql);
         $conexion->cerrar();
     }
+    public function guardarImagenModificada($id_producto, $nombre_archivo) {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $sql = "INSERT INTO imagenes_productos (id_producto, nombre_archivo) VALUES ('$id_producto', '$nombre_archivo')";
+        $conexion->consulta($sql);
+        $conexion->cerrar();
+    }
+
+    public function esFormatoPermitido($tipo_mime) {
+        $permitidos = ['image/jpg', 'image/jpeg', 'image/png'];
+        return in_array($tipo_mime, $permitidos);
+    }
+    public function actualizarProducto($id, $marca, $modelo, $tipo, $precio, $especificaciones) {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $sql = "UPDATE productos 
+                SET marca='$marca', modelo='$modelo', tipo='$tipo', precio='$precio', especificaciones='$especificaciones' 
+                WHERE id='$id'";
+        $conexion->consulta($sql);
+        $result = $conexion->obtenerFilasAfectadas();
+        $conexion->cerrar();
+        return $result;
+    }
+
+
 }
 
 ?>

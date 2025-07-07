@@ -133,6 +133,36 @@ class Controlador {
         header("Location: index.php?accion=modificar&editar=" . $id_producto);
         exit();
     }
+    public function agregarImagen($id_producto, $archivo) {
+        $gestorTenis = new GestorTenis();
+        if ($gestorTenis->esFormatoPermitido($archivo["type"])) {
+            $nombre_archivo = time() . '_' . basename($archivo["name"]);
+            $ruta = "uploads/" . $nombre_archivo;
+
+            if (move_uploaded_file($archivo["tmp_name"], $ruta)) {
+                $gestorTenis->guardarImagenModificada($id_producto, $nombre_archivo);
+                echo "<script>alert('Imagen agregada exitosamente');</script>";
+            } else {
+                echo "<script>alert('Error al guardar la imagen en el servidor');</script>";
+            }
+        } else {
+            echo "<script>alert('Formato de imagen no permitido');</script>";
+        }
+        require_once "Vista/html/modificar.php";
+    }
+
+    public function modificarProducto($id, $marca, $modelo, $tipo, $precio, $especificaciones) {
+        $gestor = new GestorTenis();
+        $result = $gestor->actualizarProducto($id, $marca, $modelo, $tipo, $precio, $especificaciones);
+        if ($result > 0) {
+            echo "<script>alert('Producto modificado correctamente');</script>";
+        } else {
+            echo "<script>alert('No se pudo modificar el producto');</script>";
+        }
+        require_once "Vista/html/modificar.php";
+    }
+
+
 
 }
 
