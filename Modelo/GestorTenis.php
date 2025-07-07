@@ -163,9 +163,14 @@ class GestorTenis{
         $conexion->cerrar();
         return $result;
     }
-    public function CrearPedidoDesdeCarrito($id_usuario, $id_producto, $cantidad, $fecha, $estado) {
+    public function crearPedidoDesdeCarrito(Pedidos $pedidos) {
         $conexion = new Conexion();
         $conexion->abrir();
+        $id_usuario = $pedidos->obtenerIdUsuario();
+        $id_producto = $pedidos->obtenerIdProducto();
+        $cantidad = $pedidos->obtenerCantidad();
+        $fecha = $pedidos->obtenerFecha();
+        $estado = $pedidos->obtenerEstado();
         $sql = "INSERT INTO pedidos (id_usuario, id_producto, cantidad, fecha, estado)
                 VALUES ('$id_usuario', '$id_producto', '$cantidad', '$fecha', '$estado')";
         $conexion->consulta($sql);

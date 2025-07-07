@@ -167,8 +167,6 @@ class Controlador {
         if (!isset($_SESSION['carrito'])) {
             $_SESSION['carrito'] = [];
         }
-
-        // Verifica si ya está en el carrito
         if (!in_array($id_producto, $_SESSION['carrito'])) {
             $_SESSION['carrito'][] = $id_producto;
         }
@@ -185,7 +183,7 @@ class Controlador {
             return in_array($prod['id'], $carrito);
         });
 
-        require_once "Vista/html/carrito.php"; // Aquí puedes ajustar la vista para mostrar solo $seleccionados
+        require_once "Vista/html/carrito.php";
     }
 
     public function vaciarCarrito() {
@@ -204,18 +202,16 @@ class Controlador {
         $carrito = $_SESSION['carrito'];
         $fecha = date("Y-m-d");
         $estado = "Solicitado";
-        require_once 'Modelo/GestorTenis.php';
-        $gestor = new GestorTenis();
-
-        foreach ($carrito as $id_producto) {
-            $cantidad = 1; // Puedes cambiar esto si implementas cantidades personalizadas por producto
-            $resultado = $gestor->CrearPedidoDesdeCarrito($id_usuario, $id_producto, $cantidad, $fecha, $estado);
+        $gestorTenis = new GestorTenis();
+        foreach ($carrito as $id_producto => $cantidad) {
+            $pedido = new Pedidos($id_usuario, $id_producto, $cantidad, $fecha, $estado);
+            $resultado = $gestorTenis->crearPedidoDesdeCarrito($pedido);
 
             if ($resultado <= 0) {
                 echo "<script>alert('Ocurrió un problema al registrar el pedido del producto ID $id_producto');</script>";
             }
         }
-        unset($_SESSION['carrito']); // Limpia el carrito después de la compra
+        unset($_SESSION['carrito']);
         echo "<script>alert('Compra realizada con éxito');</script>";
         require_once "Vista/html/carrito.php";
     }

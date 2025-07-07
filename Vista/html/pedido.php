@@ -75,7 +75,7 @@ $productos = obtenerProductos();
                             <p class="card-text">Marca: <?php echo $productos[$i]['marca']; ?></p>
                             <p class="card-text">Modelo: <?php echo $productos[$i]['modelo']; ?></p>
                             <p class="card-text">Especificaciones: <?php echo $productos[$i]['especificaciones']; ?></p>
-                            <a href="index.php?accion=carrito" class="btn btn-secondary" >Agregar al Carrito</a>
+                            <a href="index.php?accion=agregarAlCarrito&id=<?php echo $productos[$i]['id']; ?>" class="btn btn-secondary">Agregar al Carrito</a>
                         </div>
                     </div>
                     <?php

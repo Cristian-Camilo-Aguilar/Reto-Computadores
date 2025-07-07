@@ -11,10 +11,11 @@ $id_usuario = $_SESSION['id_usuario'];
 $productos = obtenerProductos();
 $carrito_ids = isset($_SESSION['carrito']) ? $_SESSION['carrito'] : [];
 
-// Filtrar productos en el carrito
+// filtrar productos en el carrito según los ID
 $carrito_productos = array_filter($productos, function($prod) use ($carrito_ids) {
-    return in_array($prod['id'], $carrito_ids);
+    return array_key_exists($prod['id'], $carrito_ids);
 });
+
 
 ?>
 <!DOCTYPE html>
@@ -45,7 +46,7 @@ $carrito_productos = array_filter($productos, function($prod) use ($carrito_ids)
                     <p>Marca: <?php echo htmlspecialchars($prod['marca']); ?></p>
                     <p>Modelo: <?php echo htmlspecialchars($prod['modelo']); ?></p>
                     <p>Precio: $<?php echo htmlspecialchars($prod['precio']); ?></p>
-                    <!-- Aquí puedes agregar cantidad o eliminar del carrito si gustas -->
+                    <p><strong>Cantidad solicitada:</strong> <?php echo $_SESSION['carrito'][$prod['id']]; ?></p>
                 </div>
             <?php endforeach; ?>
             <div style="text-align:center;">

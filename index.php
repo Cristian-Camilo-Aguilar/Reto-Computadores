@@ -139,9 +139,19 @@ if (isset($_GET["accion"])) {
             break;
 
         case "agregarAlCarrito":
-            $id = $_GET["id"];
-            $controlador->agregarAlCarrito($id);
-            break;
+            if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
+                $id_producto = intval($_GET["id"]);
+                if (!isset($_SESSION['carrito'])) {
+                    $_SESSION['carrito'] = [];
+                }
+                if (isset($_SESSION['carrito'][$id_producto])) {
+                    $_SESSION['carrito'][$id_producto]++;
+                } else {
+                    $_SESSION['carrito'][$id_producto] = 1;
+                }
+            }
+            header("Location: index.php?accion=carrito");
+            exit();
 
         case "vaciarCarrito":
             $controlador->vaciarCarrito();
