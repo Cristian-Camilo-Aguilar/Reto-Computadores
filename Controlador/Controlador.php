@@ -130,7 +130,7 @@ class Controlador {
         if (file_exists($ruta)) {
             unlink($ruta);
         }
-        header("Location: index.php?accion=modificar&editar=" . $id_producto);
+        header("Location: index.php?accion=modificar&id=" . $id_producto);
         exit();
     }
     public function agregarImagen($id_producto, $archivo) {

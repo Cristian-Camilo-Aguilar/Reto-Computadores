@@ -48,8 +48,8 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
                     echo '<option value="' . $cat['id'] . '">' . htmlspecialchars($cat['nombre']) . '</option>';
                 }
                 ?>
-            <input type="file" name="cover[]" multiple>
             </select>
+            <input type="file" name="cover[]" multiple>
             <button type="submit">Guardar Producto</button>
         </form>
         <h5>Productos Registrados</h5>
@@ -82,7 +82,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
                         <td><?php echo $productos[$i]['precio']; ?></td>
                         <td><?php echo $productos[$i]['especificaciones']; ?></td>
                         <td>
-                            <a href="index.php?accion=modificar">Modificar</a>
+                            <a href="index.php?accion=modificar&id=<?php echo $productos[$i]['id']; ?>">Modificar</a>
                         </td>
                     </tr>
                     <?php

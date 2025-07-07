@@ -260,7 +260,6 @@ footer {
 .producto button {
     padding: 0.5rem 1rem;
     margin-top: 0.5rem;
-    background-color: #3e8ed0;
     border: none;
     border-radius: 4px;
     color: white;
@@ -307,4 +306,26 @@ footer {
     border-radius: 4px;
     color: white;
     cursor: pointer;
+}
+
+/* Filtro y Busqueda */
+
+.filtro {
+    margin: 2rem 0;
+}
+
+#filtro-form {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+#filtro-form input[type="text"],
+#filtro-form select,
+#filtro-form button {
+    height: 40px;
+    font-size: 1rem;
 }

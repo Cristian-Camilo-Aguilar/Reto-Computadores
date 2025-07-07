@@ -42,3 +42,18 @@ function cambiarEstadoPedido(id) {
         }
     });
 }
+
+document.getElementById('filtro-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const buscar = document.getElementById('buscar').value;
+    const categoria = document.getElementById('categoria').value;
+    fetch('ajax/catalogo-filtrado.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ buscar, categoria })
+    })
+    .then(res => res.text())
+    .then(data => {
+        document.getElementById('catalogo-resultados').innerHTML = data;
+    });
+});
