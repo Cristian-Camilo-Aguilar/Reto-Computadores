@@ -1,6 +1,14 @@
 <?php
-
+function mostrarSweetAlert($mensaje, $tipo = 'info', $redireccion = 'index.php') {
+    $urlAbsoluta = "http://localhost/computadores_cristian/" . ltrim($redireccion, '/');
+    $msg = urlencode($mensaje);
+    $tipo = urlencode($tipo);
+    $redir = urlencode($urlAbsoluta);
+    header("Location: Vista/html/alerta.php?msg=$msg&tipo=$tipo&redir=$redir");
+    exit();
+}
 class Controlador {
+
     public function verpagina($ruta){
             require_once $ruta;
     }
@@ -12,8 +20,7 @@ class Controlador {
             $_SESSION["rol"] = $result['rol'];
             require_once "Vista/html/admin.php";
         } else {
-            echo "<script>alert('Usuario o Contraseña incorrectos');</script>";
-            require_once "Vista/html/login.html";
+            mostrarSweetAlert('Usuario o Contraseña incorrectos', 'error', 'index.php?accion=loginadmin');
         }
     }
     public function loginCliente($correo, $contrasena){
@@ -26,91 +33,78 @@ class Controlador {
             $_SESSION["rol"] = $result['rol'];
             require_once "Vista/html/pedido.php";
         } else {
-            echo "<script>alert('Usuario, contraseña o rol incorrecto');</script>";
-            require_once "Vista/html/logincliente.html";
+            mostrarSweetAlert('Usuario incorrecto', 'error', 'index.php?accion=logincliente');
         }
     }
     public function registrarCliente($nombre, $correo, $contrasena, $rol){
         $gestorTenis= new GestorTenis();
         $result=$gestorTenis->registrarCliente($nombre, $correo, $contrasena, $rol);
-        if ($result>0){
-            echo"<script>alert('Usuario Registrado con Exito');
-            window.location.href = 'index.php?accion=pedido';</script>";
-        }
-        else{
-            echo"<script>alert('El Usuario no se Registro')</script>";
-            require_once "Vista/html/registro.html";
+        if ($result > 0) {
+            mostrarSweetAlert('Usuario registrado con éxito', 'success', 'index.php?accion=pedido');
+        } else {
+            mostrarSweetAlert('El usuario no se registró', 'error', 'index.php?accion=registro');
         }
     }
     public function crearProducto($nombre, $marca, $modelo, $tipo, $precio, $especificaciones){
         $productos = new Productos($nombre, $marca, $modelo, $tipo, $precio, $especificaciones);
         $gestorTenis = new GestorTenis();
         $id_producto = $gestorTenis->CrearProducto($productos);
-        if ($id_producto > 0){
-            echo"<script>alert('Producto agregado con Exito')</script>";
+        if ($id_producto > 0) {
+            mostrarSweetAlert('Producto agregado con éxito', 'success', 'index.php?accion=admin');
         } else {
-            echo"<script>alert('Producto no se Guardó')</script>";
+            mostrarSweetAlert('Producto no se guardó', 'error', 'index.php?accion=admin');
         }
-        require_once "Vista/html/admin.php";
-        return $id_producto; 
+        return $id_producto;
     }
     public function guardarImagen($id_producto, $nombre_archivo) {
         $gestorTenis = new GestorTenis();
         $gestorTenis->guardarImagen($id_producto, $nombre_archivo);
     }
-    public function crearPedido ($id_usuario, $id_producto, $cantidad, $fecha, $estado){
-        $pedidos = new Pedidos ($id_usuario, $id_producto, $cantidad, $fecha, $estado);
-        $gestorTenis= new GestorTenis();
-        $result=$gestorTenis->CrearPedido($pedidos);
-        if ($result>0){
-            echo"<script>alert('Pedido agregado con Exito')</script>";
+    public function crearPedido($id_usuario, $id_producto, $cantidad, $fecha, $estado){
+        $pedido = new Pedidos($id_usuario, $id_producto, $cantidad, $fecha, $estado);
+        $gestorTenis = new GestorTenis();
+        $result = $gestorTenis->CrearPedido($pedido);
+        if ($result > 0) {
+            mostrarSweetAlert('Pedido agregado con éxito', 'success', 'index.php?accion=pedido');
+        } else {
+            mostrarSweetAlert('Pedido no se guardó', 'error', 'index.php?accion=pedido');
         }
-        else{
-            echo"<script>alert('Pedido no se Guardó')</script>";
-        }
-        require_once "Vista/html/pedido.php";
     }
     public function crearCategoria($nombre_categoria){
-        $categorias = new Categorias ($nombre_categoria);
-        $gestorTenis= new GestorTenis();
-        $result=$gestorTenis->CrearCategoria($categorias);
-        if ($result>0){
-            echo"<script>alert('Categoria agregada con Exito')</script>";
+        $categoria = new Categorias($nombre_categoria);
+        $gestorTenis = new GestorTenis();
+        $result = $gestorTenis->CrearCategoria($categoria);
+        if ($result > 0) {
+            mostrarSweetAlert('Categoría agregada con éxito', 'success', 'index.php?accion=categorias');
+        } else {
+            mostrarSweetAlert('La categoría no se guardó', 'error', 'index.php?accion=categorias');
         }
-        else{
-            echo"<script>alert('La Categoria no se guardó')</script>";
-        }
-        require_once "Vista/html/categorias.php";
     }
     public function eliminarCategoria($id){
         $gestorTenis = new GestorTenis();
         if ($gestorTenis->categoriaTieneProductos($id)) {
-            echo "<script>alert('No se puede eliminar la Categoría porque está asociada a Productos');</script>";
-            require_once "Vista/html/categorias.php";
+            mostrarSweetAlert('No se puede eliminar la categoría porque está asociada a productos', 'warning', 'index.php?accion=categorias');
             return;
         }
         $result = $gestorTenis->eliminarCategoria($id);
         if ($result > 0) {
-            echo "<script>alert('Categoría eliminada con éxito');</script>";
+            mostrarSweetAlert('Categoría eliminada con éxito', 'success', 'index.php?accion=categorias');
         } else {
-            echo "<script>alert('Error al eliminar la categoría');</script>";
+            mostrarSweetAlert('Error al eliminar la categoría', 'error', 'index.php?accion=categorias');
         }
-        require_once "Vista/html/categorias.php";
-}
+    }
     public function eliminarProducto($id){
         $gestorTenis = new GestorTenis();
         if ($gestorTenis->tieneRelacionesProductos($id)) {
-            echo "<script>alert('No se puede eliminar el producto porque está relacionado con una Categoria');</script>";
-            require_once "Vista/html/admin.php";
+            mostrarSweetAlert('No se puede eliminar el producto porque está relacionado con una categoría', 'warning', 'index.php?accion=admin');
             return;
         }
         $result = $gestorTenis->eliminarProducto($id);
         if ($result > 0) {
-            echo "<script>alert('Producto eliminado con éxito');</script>";
+            mostrarSweetAlert('Producto eliminado con éxito', 'success', 'index.php?accion=admin');
         } else {
-            echo "<script>alert('Error al eliminar el Producto');</script>";
+            mostrarSweetAlert('Error al eliminar el producto', 'error', 'index.php?accion=admin');
         }
-        require_once "Vista/html/admin.php";
     }
     public function actualizarEstadoPedido($id, $estado){
         $gestorTenis = new GestorTenis();
@@ -131,31 +125,25 @@ class Controlador {
         if ($gestorTenis->esFormatoPermitido($archivo["type"])) {
             $nombre_archivo = time() . '_' . basename($archivo["name"]);
             $ruta = "uploads/" . $nombre_archivo;
-
             if (move_uploaded_file($archivo["tmp_name"], $ruta)) {
                 $gestorTenis->guardarImagenModificada($id_producto, $nombre_archivo);
-                echo "<script>alert('Imagen agregada exitosamente');</script>";
+                mostrarSweetAlert('Imagen agregada exitosamente', 'success', 'index.php?accion=modificar&id=' . $id_producto);
             } else {
-                echo "<script>alert('Error al guardar la imagen en el servidor');</script>";
+                mostrarSweetAlert('Error al guardar la imagen en el servidor', 'error', 'index.php?accion=modificar&id=' . $id_producto);
             }
         } else {
-            echo "<script>alert('Formato de imagen no permitido');</script>";
+            mostrarSweetAlert('Formato de imagen no permitido', 'warning', 'index.php?accion=modificar&id=' . $id_producto);
         }
-        require_once "Vista/html/modificar.php";
     }
-
     public function modificarProducto($id, $marca, $modelo, $tipo, $precio, $especificaciones) {
         $gestor = new GestorTenis();
         $result = $gestor->actualizarProducto($id, $marca, $modelo, $tipo, $precio, $especificaciones);
         if ($result > 0) {
-            echo "<script>alert('Producto modificado correctamente');</script>";
+            mostrarSweetAlert('Producto modificado correctamente', 'success', 'index.php?accion=modificar&id=' . $id);
         } else {
-            echo "<script>alert('No se pudo modificar el producto');</script>";
+            mostrarSweetAlert('No se pudo modificar el producto', 'error', 'index.php?accion=modificar&id=' . $id);
         }
-        require_once "Vista/html/modificar.php";
     }
-
-
     public function agregarAlCarrito($id_producto) {
         if (!isset($_SESSION['carrito'])) {
             $_SESSION['carrito'] = [];
@@ -187,8 +175,7 @@ class Controlador {
 
     public function confirmarPedido() {
         if (!isset($_SESSION['id_usuario']) || !isset($_SESSION['carrito'])) {
-            echo "<script>alert('No hay productos en el carrito');</script>";
-            require_once "Vista/html/carrito.php";
+            mostrarSweetAlert('No hay productos en el carrito', 'warning', 'index.php?accion=carrito');
             return;
         }
         $id_usuario = $_SESSION['id_usuario'];
@@ -199,16 +186,14 @@ class Controlador {
         foreach ($carrito as $id_producto => $cantidad) {
             $pedido = new Pedidos($id_usuario, $id_producto, $cantidad, $fecha, $estado);
             $resultado = $gestorTenis->crearPedidoDesdeCarrito($pedido);
-
             if ($resultado <= 0) {
-                echo "<script>alert('Ocurrió un problema al registrar el pedido del producto ID $id_producto');</script>";
+                mostrarSweetAlert("Error al registrar el producto ID $id_producto", 'error', 'index.php?accion=carrito');
+                return;
             }
         }
         unset($_SESSION['carrito']);
-        echo "<script>alert('Compra realizada con éxito');</script>";
-        require_once "Vista/html/carrito.php";
+        mostrarSweetAlert('Compra realizada con éxito', 'success', 'index.php?accion=carrito');
     }
-
 
 }
 
