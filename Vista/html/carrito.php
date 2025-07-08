@@ -27,7 +27,7 @@ $carrito_productos = array_filter($productos, function($prod) use ($carrito_ids)
 </head>
 <body>
     <header>
-        <h1>Tienda de Tenis</h1>
+        <br><h1>Tienda de Computadores Y Respuestos</h1><br>
         <nav>
             <a href="index.php?accion=pedido">Catálogo</a>
             <a href="index.php?accion=pedidosrealizados">Mis Pedidos</a>

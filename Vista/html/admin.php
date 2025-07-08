@@ -16,7 +16,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
 </head>
 <body>
     <header>
-        <h1>Tienda de Tenis</h1>
+        <br><h1>Tienda de Computadores Y Respuestos</h1><br>
         <nav>
             <a class="activa" href="index.php?accion=admin">Inicio</a>
             <a href="index.php?accion=categorias">Categorias</a>
@@ -44,9 +44,10 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
             <input type="text" name="especificaciones" placeholder="Especificaciones" required>
             <select name="tipo" required>
                 <option value="">Seleccionar categoría</option>
-                <?php
+                <?php 
                 foreach ($categorias as $cat) {
-                    echo '<option value="' . $cat['id'] . '">' . htmlspecialchars($cat['nombre']) . '</option>';
+                $selected = $categoria == $cat['id'] ? 'selected' : '';
+                echo "<option value='{$cat['id']}' $selected>" . htmlspecialchars($cat['nombre_categoria']) . "</option>";
                 }
                 ?>
             </select>

@@ -169,6 +169,7 @@ footer {
     border: none;
     padding: 10px;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .guardarCate{
@@ -177,6 +178,7 @@ footer {
     border: none;
     padding: 10px;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .guardarProdu{
@@ -185,6 +187,7 @@ footer {
     border: none;
     padding: 10px;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .btnverProdu{
@@ -389,13 +392,17 @@ footer {
     margin: 2rem 0;
 }
 
+
 #filtro-form {
+    width: 100%;
+}
+
+#filtro-form .form-group {
     display: flex;
-    flex-direction: row;
-    gap: 15px;
-    align-items: center;
-    justify-content: flex-start;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
 }
 
 #filtro-form input[type="text"],
@@ -403,4 +410,5 @@ footer {
 #filtro-form button {
     height: 40px;
     font-size: 1rem;
+    flex-shrink: 0;
 }

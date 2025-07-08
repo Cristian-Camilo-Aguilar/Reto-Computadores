@@ -22,7 +22,7 @@ $pedidoscliente = obtenerPedidosClientes($id_usuario);
 </head>
 <body>
     <header>
-        <h1>Tienda de Tenis</h1>
+        <br><h1>Tienda de Computadores Y Respuestos</h1><br>
         <nav>
             <a href="index.php?accion=pedido">Catálogo</a>
             <a class="activa" href="index.php?accion=pedidosrealizados">Mis Pedidos</a>

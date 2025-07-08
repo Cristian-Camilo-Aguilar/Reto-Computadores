@@ -16,8 +16,20 @@ $imagenes = $id ? obtenerImagenesProducto($id) : [];
     <script type="text/javascript" src="Vista/js/script.js"></script>
 </head>
 <body>
+    <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'cliente'): ?>
     <header>
         <h1>Tienda de Tenis</h1>
+        <nav>
+            <a class="activa" href="index.php?accion=pedido">Catálogo</a>
+            <a href="index.php?accion=pedidosrealizados">Mis Pedidos</a>
+            <a href="index.php?accion=carrito">Mi Carrito</a>
+            <a href="index.php?accion=vaciarCarrito">Vaciar Carrito</a>
+            <a href="index.php?accion=logout">Cerrar Sesión</a>
+        </nav>
+    </header>
+    <?php else: ?>
+    <header>
+        <br><h1>Tienda de Computadores Y Respuestos</h1><br>
         <nav>
             <a href="index.php?accion=vista">Inicio</a>
             <a class="activa" href="index.php?accion=vista">Catálogo</a>
@@ -25,6 +37,7 @@ $imagenes = $id ? obtenerImagenesProducto($id) : [];
             <a href="index.php?accion=loginadmin">Login Admin</a>
         </nav>
     </header>
+    <?php endif; ?>
 
     <section class="container py-5">
         <?php if ($producto): ?>
@@ -65,8 +78,16 @@ $imagenes = $id ? obtenerImagenesProducto($id) : [];
                 <li class="list-group-item"><strong>Especificaciones:</strong> <?php echo htmlspecialchars($producto['especificaciones']); ?></li>
                 </ul>
                 <div class="mt-4">
-                <a href="index.php?accion=agregarAlCarrito&id=<?php echo $producto['id']; ?>" class="btnaggProdu">Agregar al carrito</a>
-                <a href="index.php?accion=pedido" class="btn btn-outline-secondary">Regresar al catálogo</a>
+                <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'cliente'): ?>
+                    <a href="index.php?accion=agregarAlCarrito&id=<?php echo $producto['id']; ?>" class="btnaggProdu">
+                    Agregar al carrito
+                    </a>
+                <?php else: ?>
+                    <a href="index.php?accion=logincliente" class="btnaggProdu btn btn-warning">
+                    Solicitar compra
+                    </a>
+                <?php endif; ?>
+                <a href="index.php?accion=pedido" class="btn btn-outline-secondary ms-2">Regresar al catálogo</a>
                 </div>
             </div>
             </div>

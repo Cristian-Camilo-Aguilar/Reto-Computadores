@@ -16,17 +16,17 @@ class Controlador {
             require_once "Vista/html/login.html";
         }
     }
-
     public function loginCliente($correo, $contrasena){
         $gestorTenis = new GestorTenis();
         $result = $gestorTenis->logincliente($correo, $contrasena); 
-        if ($result && password_verify($contrasena, $result['contrasena'])) {
+        if ($result && password_verify($contrasena, $result['contrasena']) && $result['rol'] === 'cliente') {
             $_SESSION["correo"] = $correo;
             $_SESSION["nombre"] = $result['nombre'];
             $_SESSION["id_usuario"] = $result['id'];
+            $_SESSION["rol"] = $result['rol'];
             require_once "Vista/html/pedido.php";
         } else {
-            echo "<script>alert('Usuario o Contraseña incorrectos');</script>";
+            echo "<script>alert('Usuario, contraseña o rol incorrecto');</script>";
             require_once "Vista/html/logincliente.html";
         }
     }
