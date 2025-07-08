@@ -17,7 +17,7 @@ $pedidoscliente = obtenerPedidosClientes($id_usuario);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Carrito de Compras</title>
+    <title>Mis Pedidos</title>
     <link rel="stylesheet" href="Vista/css/styles.css">
 </head>
 <body>

@@ -6,6 +6,7 @@ require_once 'Modelo/GestorTenis.php';
 require_once 'Modelo/Productos.php';
 require_once 'Modelo/Categorias.php';
 require_once 'Modelo/Pedidos.php';
+require_once 'Modelo/Estadisticas.php';
 
 session_start();
 $controlador = new Controlador;
@@ -179,8 +180,8 @@ if (isset($_GET["accion"])) {
             $controlador->verpagina('Vista/html/carrito.php');
             break;
 
-        case "dashboard":
-            $controlador->verpagina('Vista/html/dashboard.php');
+        case "verEstadisticas":
+            $controlador->consultarEstadisticas();
             break;
 
         case "loginadmin":

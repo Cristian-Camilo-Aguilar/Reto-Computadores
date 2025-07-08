@@ -22,7 +22,7 @@ $totalPaginas = ceil($totalProductos / $productosPorPagina);
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Tienda de Tenis</title>
+  <title>Catálogo</title>
   <link rel="stylesheet" href="Vista/css/styles.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
