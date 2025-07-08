@@ -23,9 +23,9 @@ $productos = obtenerProductos();
     <header>
         <h1>Tienda de Tenis</h1>
         <nav>
-            <a href="index.php?accion=pedido">Catálogo</a>
+            <a class="activa" href="index.php?accion=pedido">Catálogo</a>
             <a href="index.php?accion=pedidosrealizados">Mis Pedidos</a>
-            <a href="index.php?accion=carrito">Carrito</a>
+            <a href="index.php?accion=carrito">Mi Carrito</a>
             <a href="index.php?accion=vaciarCarrito">Vaciar Carrito</a>
             <a href="index.php?accion=logout">Cerrar Sesión</a>
         </nav>

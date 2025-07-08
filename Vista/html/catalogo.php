@@ -11,7 +11,9 @@
   <header>
     <h1>Tienda de Tenis</h1>
     <nav>
-      <a href="index.php?accion=vista">Catálogo</a>
+      <a href="index.php?accion=vista">Inicio</a>
+      <a class="activa" href="index.php?accion=vista">Catálogo</a>
+      <a href="index.php?accion=logincliente">Login Cliente</a>
       <a href="index.php?accion=loginadmin">Login Admin</a>
     </nav>
   </header>

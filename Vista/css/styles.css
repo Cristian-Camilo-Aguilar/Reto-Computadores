@@ -5,6 +5,13 @@ body {
     background-color: #f4f4f4;
 }
 
+.activa{
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 15px;
+}
+
 .login {
     padding: 2rem 2.5rem;
     border-radius: 10px;

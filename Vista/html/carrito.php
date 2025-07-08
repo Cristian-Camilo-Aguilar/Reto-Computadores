@@ -31,7 +31,7 @@ $carrito_productos = array_filter($productos, function($prod) use ($carrito_ids)
         <nav>
             <a href="index.php?accion=pedido">Catálogo</a>
             <a href="index.php?accion=pedidosrealizados">Mis Pedidos</a>
-            <a href="index.php?accion=carrito">Carrito</a>
+            <a class="activa" href="index.php?accion=carrito">Mi Carrito</a>
             <a href="index.php?accion=vaciarCarrito">Vaciar Carrito</a>
             <a href="index.php?accion=logout">Cerrar Sesión</a>
         </nav>
