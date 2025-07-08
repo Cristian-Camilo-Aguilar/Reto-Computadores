@@ -144,6 +144,49 @@ footer {
     border-radius: 10px;
 }
 
+.btnmodificar{
+    color: white;
+    text-decoration: none;
+    background-color: #3e8ed0;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+.btneliminar{
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    background-color: red;
+    padding: 10px;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.eliminarCate{
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.guardarCate{
+    background-color: gray;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.guardarProdu{
+    background-color: gray;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+}
+
 .producto-formulario {
     flex: 1;
     background: #fff;

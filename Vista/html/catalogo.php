@@ -52,39 +52,16 @@
           $carouselId = "carouselProducto" . $i;
       ?>
       <div class="producto card mb-4" style="width: 18rem; display:inline-block; vertical-align:top; margin:10px;">
-        <div id="<?php echo $carouselId; ?>" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <?php
-              if (!empty($imagenes)) {
-                foreach ($imagenes as $idx => $img) {
-            ?>
-              <div class="carousel-item <?php if ($idx === 0) echo 'active'; ?>">
-                <img src="uploads/<?php echo htmlspecialchars($img); ?>" class="d-block w-100" style="max-height:180px;object-fit:contain;">
-              </div>
-            <?php
-                }
-              } else {
-            ?>
-              <div class="carousel-item active">
-                <img src="uploads/default.png" class="d-block w-100" style="max-height:180px;object-fit:contain;">
-              </div>
-            <?php } ?>
-          </div>
-          <?php if (!empty($imagenes) && count($imagenes) > 1) { ?>
-            <button class="carousel-control-prev" type="button" data-bs-target="#<?php echo $carouselId; ?>" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#<?php echo $carouselId; ?>" data-bs-slide="next">
-              <span class="carousel-control-next-icon"></span>
-            </button>
-          <?php } ?>
-        </div>
+        <?php if (!empty($imagenes)) { ?>
+          <img src="uploads/<?php echo htmlspecialchars($imagenes[0]); ?>" class="card-img-top" style="max-height:180px;object-fit:contain;">
+        <?php } else { ?>
+          <img src="uploads/default.png" class="card-img-top" style="max-height:180px;object-fit:contain;">
+        <?php } ?>
         <div class="card-body">
           <h5 class="card-title"><?php echo $productos[$i]['nombre']; ?></h5>
           <p class="card-text">Marca: <?php echo $productos[$i]['marca']; ?></p>
           <p class="card-text">Modelo: <?php echo $productos[$i]['modelo']; ?></p>
-          <p class="card-text">Especificaciones: <?php echo $productos[$i]['especificaciones']; ?></p>
-          <a href="index.php?accion=registro" class="btn btn-secondary">Solicitar Compra</a>
+          <a href="index.php?accion=verProducto&id=<?php echo $productos[$i]['id']; ?>" class="btn btn-primary">Ver producto</a>
         </div>
       </div>
       <?php

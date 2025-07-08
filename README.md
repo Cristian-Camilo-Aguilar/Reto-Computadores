@@ -56,3 +56,5 @@ Este proyecto es una aplicación web desarrollada en PHP y MySQL para la gestió
 - El sistema diferencia entre clientes y administradores mediante el campo `rol` en la tabla `usuarios`.
 - El administrador debe ser creado manualmente en la base de datos o mediante un registro especial.
 - El sistema muestra mensajes de alerta para operaciones exitosas o errores (por ejemplo, al eliminar categorías con productos asociados). **EN PROCESO**
+
+

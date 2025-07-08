@@ -104,14 +104,16 @@ class GestorTenis{
         $conexion->cerrar();
         return $result;
     }
-    public function cambiarEstadoPedido($id){
+    public function actualizarEstadoPedido($id, $estado){
         $conexion = new Conexion();
         $conexion->abrir();
-        $sql = "UPDATE pedidos SET estado='Enviado' WHERE id=$id";
+        $estado = $conexion->getMySQLI()->real_escape_string($estado);
+        $id = intval($id);
+        $sql = "UPDATE pedidos SET estado='$estado' WHERE id=$id";
         $conexion->consulta($sql);
-        $result = $conexion->obtenerFilasAfectadas();
+        $resultado = $conexion->obtenerFilasAfectadas();
         $conexion->cerrar();
-        return $result;
+        return $resultado;
     }
     public function tieneRelacionesProductos($id) {
         $conexion = new Conexion();
@@ -147,7 +149,6 @@ class GestorTenis{
         $conexion->consulta($sql);
         $conexion->cerrar();
     }
-
     public function esFormatoPermitido($tipo_mime) {
         $permitidos = ['image/jpg', 'image/jpeg', 'image/png'];
         return in_array($tipo_mime, $permitidos);
@@ -178,8 +179,6 @@ class GestorTenis{
         $conexion->cerrar();
         return $result;
     }
-
-
 
 }
 

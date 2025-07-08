@@ -20,7 +20,8 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
         <nav>
             <a href="index.php?accion=admin">Inicio</a>
             <a href="index.php?accion=categorias">Categorias</a>
-            <a href="index.php?accion=pedidosclientes">Pedidos</a>
+            <a class="activa" href="index.php?accion=pedidosclientes">Pedidos</a>
+            <a href="index.php?accion=dashboard">Estadisticas</a>
             <a href="index.php?accion=logout">Cerrar Sesion</a>
         </nav>
     </header>
@@ -40,6 +41,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
                     <th>Cantidad</th>
                     <th>Fecha</th>
                     <th>Estado</th>
+                    <th>Cambiar Estado</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -55,7 +57,12 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
                             <td><?php echo $pedidos[$i]['fecha']; ?></td>
                             <td><?php echo $pedidos[$i]['estado']; ?></td>
                             <td>
-                                <button type="button" onclick="cambiarEstadoPedido(<?php echo $pedidos[$i]['id']; ?>)">Pedido Enviado</button>
+                                <select class="estadoPedido" data-id="<?php echo $pedidos[$i]['id']; ?>">
+                                    <option value="Pendiente" <?php echo $pedidos[$i]['estado'] == 'Pendiente' ? 'selected' : ''; ?>>Pendiente</option>
+                                    <option value="Enviado" <?php echo $pedidos[$i]['estado'] == 'Enviado' ? 'selected' : ''; ?>>Enviado</option>
+                                    <option value="Cancelado" <?php echo $pedidos[$i]['estado'] == 'Cancelado' ? 'selected' : ''; ?>>Cancelado</option>
+                                    <option value="Solicitado" <?php echo $pedidos[$i]['estado'] == 'Solicitado' ? 'selected' : ''; ?>>Solicitado</option>
+                                </select>
                             </td>
                         </tr>
                         <?php

@@ -18,9 +18,10 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
     <header>
         <h1>Tienda de Tenis</h1>
         <nav>
-            <a href="index.php?accion=admin">Inicio</a>
+            <a class="activa" href="index.php?accion=admin">Inicio</a>
             <a href="index.php?accion=categorias">Categorias</a>
             <a href="index.php?accion=pedidosclientes">Pedidos</a>
+            <a href="index.php?accion=dashboard">Estadisticas</a>
             <a href="index.php?accion=logout">Cerrar Sesion</a>
         </nav>
     </header>
@@ -50,7 +51,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
                 ?>
             </select>
             <input type="file" name="cover[]" multiple>
-            <button type="submit">Guardar Producto</button>
+            <button type="submit" class="guardarProdu">Guardar Producto</button>
         </form>
         <h5>Productos Registrados</h5>
         <?php
@@ -66,7 +67,6 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
                 <th>Tipo</th>
                 <th>Precio</th>
                 <th>Especificaciones</th>
-                <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -82,7 +82,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
                         <td><?php echo $productos[$i]['precio']; ?></td>
                         <td><?php echo $productos[$i]['especificaciones']; ?></td>
                         <td>
-                            <a href="index.php?accion=modificar&id=<?php echo $productos[$i]['id']; ?>">Modificar</a>
+                            <a class="btnmodificar" href="index.php?accion=modificar&id=<?php echo $productos[$i]['id']; ?>">Modificar</a>
                         </td>
                     </tr>
                     <?php

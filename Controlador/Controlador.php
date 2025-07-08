@@ -112,16 +112,9 @@ class Controlador {
         }
         require_once "Vista/html/admin.php";
     }
-
-    public function cambiarEstadoPedido($id){
+    public function actualizarEstadoPedido($id, $estado){
         $gestorTenis = new GestorTenis();
-        $result = $gestorTenis->cambiarEstadoPedido($id);
-        if ($result > 0) {
-            echo "<script>alert('Estado del pedido actualizado a Enviado');</script>";
-        } else {
-            echo "<script>alert('No se pudo actualizar el estado del pedido');</script>";
-        }
-        require_once "Vista/html/pedidosclientes.php";
+        return $gestorTenis->actualizarEstadoPedido($id, $estado);
     }
     public function eliminarImagen($id_producto, $nombre_archivo) {
         $gestorTenis = new GestorTenis();

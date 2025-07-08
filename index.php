@@ -116,10 +116,17 @@ if (isset($_GET["accion"])) {
             $controlador->eliminarProducto($id);
             break;
 
-        case "cambiarEstadoPedido":
-            $id = $_GET["id"];
-            $controlador->cambiarEstadoPedido($id);
-            break;
+        case "actualizarEstadoPedido":
+            $id = $_POST["id"];
+            $estado = $_POST["estado"];
+            $resultado = $controlador->actualizarEstadoPedido($id, $estado);
+            header('Content-Type: application/json');
+            echo json_encode([
+                'title' => $resultado ? 'Actualizado' : 'Error',
+                'text' => $resultado ? 'Estado actualizado correctamente.' : 'No se pudo actualizar el estado.',
+                'icon' => $resultado ? 'success' : 'error'
+            ]);
+            exit();
         
         case "agregarImagenModificada":
             $id = $_POST["id"];
@@ -161,8 +168,20 @@ if (isset($_GET["accion"])) {
             $controlador->confirmarPedido();
             break;
 
+        case "verProducto":
+            $id = $_GET["id"] ?? null;
+            if ($id && is_numeric($id)) {
+                $_SESSION['productoId'] = intval($id);
+                $controlador->verpagina('Vista/html/verProducto.php');
+            }
+            break;
+
         case "carrito":
             $controlador->verpagina('Vista/html/carrito.php');
+            break;
+
+        case "dashboard":
+            $controlador->verpagina('Vista/html/dashboard.php');
             break;
 
         case "loginadmin":
