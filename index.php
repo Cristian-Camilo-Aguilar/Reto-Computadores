@@ -171,7 +171,6 @@ if (isset($_GET["accion"])) {
         case "verProducto":
             $id = $_GET["id"] ?? null;
             if ($id && is_numeric($id)) {
-                $_SESSION['productoId'] = intval($id);
                 $controlador->verpagina('Vista/html/verProducto.php');
             }
             break;

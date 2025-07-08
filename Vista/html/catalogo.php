@@ -33,7 +33,7 @@
             }
           ?>
         </select>
-        <button type="submit" class="btn btn-primary">Filtrar</button>
+        <button type="submit" class="btnaggProdu">Filtrar</button>
       </form>
     </div>
 
@@ -61,7 +61,7 @@
           <h5 class="card-title"><?php echo $productos[$i]['nombre']; ?></h5>
           <p class="card-text">Marca: <?php echo $productos[$i]['marca']; ?></p>
           <p class="card-text">Modelo: <?php echo $productos[$i]['modelo']; ?></p>
-          <a href="index.php?accion=verProducto&id=<?php echo $productos[$i]['id']; ?>" class="btn btn-primary">Ver producto</a>
+          <a href="index.php?accion=logincliente" class="btnverProdu">Solicitar Compra</a>
         </div>
       </div>
       <?php
@@ -71,6 +71,24 @@
       }
       ?>
     </div>
+    <nav aria-label="Paginación de productos">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
   </section>
 
 

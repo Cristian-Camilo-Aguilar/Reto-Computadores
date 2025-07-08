@@ -51,7 +51,7 @@ $carrito_productos = array_filter($productos, function($prod) use ($carrito_ids)
             <?php endforeach; ?>
             <div style="text-align:center;">
                 <form action="index.php?accion=confirmarPedido" method="post">
-                    <button type="submit">Confirmar Compra</button>
+                    <button type="submit" class="btnaggProdu">Confirmar Compra</button>
                 </form>
             </div>
         <?php else: ?>

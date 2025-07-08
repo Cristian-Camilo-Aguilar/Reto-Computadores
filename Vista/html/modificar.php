@@ -33,6 +33,7 @@ foreach ($productos as $p) {
         <a href="index.php?accion=admin">Inicio</a>
         <a href="index.php?accion=categorias">Categorías</a>
         <a href="index.php?accion=pedidosclientes">Pedidos</a>
+        <a href="index.php?accion=dashboard">Estadisticas</a>
         <a href="index.php?accion=logout">Cerrar Sesión</a>
     </nav>
 </header>

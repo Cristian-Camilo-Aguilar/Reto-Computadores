@@ -1,16 +1,18 @@
 <?php
-if (!isset($_SESSION['id_usuario'])) {
-    header("Location: index.php?accion=logincliente");
-    exit();
-}
+require_once 'Modelo/verProductoPorId.php';
+require_once 'Modelo/verImagenesProducto.php';
+
+$id = isset($_GET['id']) ? intval($_GET['id']) : null;
+$producto = $id ? obtenerProductoPorId($id) : null;
+$imagenes = $id ? obtenerImagenesProducto($id) : [];
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Estadísticas</title>
+    <title>Ver Producto</title>
     <link rel="stylesheet" href="Vista/css/styles.css">
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="Vista/js/script.js"></script>
 </head>
 <body>
@@ -24,44 +26,58 @@ if (!isset($_SESSION['id_usuario'])) {
         </nav>
     </header>
 
-    <section class="admin-section">
-        <?php
-        require_once 'Modelo/verProductoPorId.php';
-        require_once 'Modelo/verImagenesProducto.php';
-
-        $id = $_SESSION['productoId'] ?? null;
-        $producto = $id ? obtenerProductoPorId($id) : null;
-        $imagenes = $id ? obtenerImagenesProducto($id) : [];
-        ?>
-
-        <h2>Producto #<?php echo $producto['id']; ?></h2>
-
+    <section class="container py-5">
         <?php if ($producto): ?>
-            <div class="producto-detalle">
-                <p><strong>Marca:</strong> <?php echo htmlspecialchars($producto['marca']); ?></p>
-                <p><strong>Modelo:</strong> <?php echo htmlspecialchars($producto['modelo']); ?></p>
-                <p><strong>Categoría:</strong> <?php echo htmlspecialchars($producto['nombre_categoria']); ?></p>
-                <p><strong>Precio:</strong> $<?php echo number_format($producto['precio'], 2); ?></p>
-                <p><strong>Especificaciones:</strong> <?php echo htmlspecialchars($producto['especificaciones']); ?></p>
-
-                <div class="galeria-imagenes">
-                    <h3>Imágenes del producto</h3>
-                    <?php if ($imagenes): ?>
-                        <?php foreach ($imagenes as $img): ?>
-                            <img src="uploads/<?php echo $img['nombre_archivo']; ?>" alt="Imagen del producto" class="imagen-producto">
-                        <?php endforeach; ?>
+            <div class="row justify-content-center align-items-start g-4">
+            <div class="col-md-6">
+                <div id="carouselProducto" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <?php if (!empty($imagenes)): ?>
+                    <?php foreach ($imagenes as $index => $img): ?>
+                        <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
+                        <img src="uploads/<?php echo htmlspecialchars($img['nombre_archivo']); ?>" class="d-block w-100 rounded" style="max-height: 400px; object-fit: contain;" alt="Imagen producto">
+                        </div>
+                    <?php endforeach; ?>
                     <?php else: ?>
-                        <p>No hay imágenes disponibles para este producto.</p>
+                    <div class="carousel-item active">
+                        <img src="uploads/default.png" class="d-block w-100 rounded" style="max-height: 400px; object-fit: contain;" alt="Sin imagen">
+                    </div>
                     <?php endif; ?>
                 </div>
+                <?php if (count($imagenes) > 1): ?>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselProducto" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselProducto" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                    </button>
+                <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h2><?php echo htmlspecialchars($producto['nombre']); ?></h2>
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Marca:</strong> <?php echo htmlspecialchars($producto['marca']); ?></li>
+                <li class="list-group-item"><strong>Modelo:</strong> <?php echo htmlspecialchars($producto['modelo']); ?></li>
+                <li class="list-group-item"><strong>Categoría:</strong> <?php echo htmlspecialchars($producto['nombre_categoria']); ?></li>
+                <li class="list-group-item"><strong>Precio:</strong> $<?php echo number_format($producto['precio'], 2); ?></li>
+                <li class="list-group-item"><strong>Especificaciones:</strong> <?php echo htmlspecialchars($producto['especificaciones']); ?></li>
+                </ul>
+                <div class="mt-4">
+                <a href="index.php?accion=agregarAlCarrito&id=<?php echo $producto['id']; ?>" class="btnaggProdu">Agregar al carrito</a>
+                <a href="index.php?accion=pedido" class="btn btn-outline-secondary">Regresar al catálogo</a>
+                </div>
+            </div>
             </div>
         <?php else: ?>
-            <p>Producto no encontrado.</p>
+            <p class="text-center mt-5">Producto no encontrado o ID inválido.</p>
         <?php endif; ?>
-    </section>
+        </section>
 
     <footer>
         <p>&copy; 2025 Tienda de Tenis. Todos los derechos reservados.</p>
     </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
