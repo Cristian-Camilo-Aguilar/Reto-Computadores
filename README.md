@@ -1,4 +1,4 @@
-# TIENDA DE TENIS
+# TIENDA DE COMPUTADORES
 
 Este proyecto es una aplicación web desarrollada en **PHP** y **MySQL** para la gestión, venta y visualización dinámica de computadores. Diferencia claramente entre usuarios administradores y clientes, con funcionalidades adaptadas a cada rol y una experiencia interactiva en ambas interfaces.
 
