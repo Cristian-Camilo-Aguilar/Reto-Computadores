@@ -24,6 +24,8 @@ $carrito_productos = array_filter($productos, function($prod) use ($carrito_ids)
     <meta charset="UTF-8">
     <title>Carrito de Compras</title>
     <link rel="stylesheet" href="Vista/css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <header>
@@ -37,27 +39,34 @@ $carrito_productos = array_filter($productos, function($prod) use ($carrito_ids)
         </nav>
     </header>
 
-    <section class="carrito">
-        <h2 style="text-align:center;">Mi Carrito de Compras</h2>
-        <?php if (count($carrito_productos) > 0): ?>
-            <?php foreach ($carrito_productos as $prod): ?>
-                <div class="carrito-card">
-                    <h3><?php echo htmlspecialchars($prod['nombre']); ?></h3>
-                    <p>Marca: <?php echo htmlspecialchars($prod['marca']); ?></p>
-                    <p>Modelo: <?php echo htmlspecialchars($prod['modelo']); ?></p>
-                    <p>Precio: $<?php echo htmlspecialchars($prod['precio']); ?></p>
-                    <p><strong>Cantidad solicitada:</strong> <?php echo $_SESSION['carrito'][$prod['id']]; ?></p>
+    <section>
+        <div class="container">
+            <h2 class="text-center mt-4 mb-5">Mi Carrito de Compras</h2>
+            <?php if (count($carrito_productos) > 0): ?>
+                <div class="row">
+                    <?php foreach ($carrito_productos as $index => $prod): ?>
+                        <div class="col-md-6 col-sm-12 mb-4">
+                            <div class="card carrito-card p-3 shadow-sm">
+                                <h4 class="mb-2"><?php echo htmlspecialchars($prod['nombre']); ?></h4>
+                                <p><strong>Marca:</strong> <?php echo htmlspecialchars($prod['marca']); ?></p>
+                                <p><strong>Modelo:</strong> <?php echo htmlspecialchars($prod['modelo']); ?></p>
+                                <p><strong>Precio:</strong> $<?php echo htmlspecialchars($prod['precio']); ?></p>
+                                <p><strong>Cantidad solicitada:</strong> <?php echo $_SESSION['carrito'][$prod['id']]; ?></p>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-            <?php endforeach; ?>
-            <div style="text-align:center;">
-                <form action="index.php?accion=confirmarPedido" method="post">
-                    <button type="submit" class="btnaggProdu">Confirmar Compra</button>
-                </form>
-            </div>
-        <?php else: ?>
-            <p style="text-align:center;">Tu carrito está vacío.</p>
-        <?php endif; ?>
+                <div class="text-center mt-4">
+                    <form action="index.php?accion=confirmarPedido" method="post">
+                        <button type="submit" class="btnaggProdu">Confirmar Compra</button>
+                    </form>
+                </div>
+            <?php else: ?>
+                <p class="text-center">Tu carrito está vacío.</p>
+            <?php endif; ?>
+        </div>
     </section>
+
 
     <footer>
         <p>&copy; 2025 Tienda de Tenis. Todos los derechos reservados.</p>
